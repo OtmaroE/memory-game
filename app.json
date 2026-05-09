@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "guessing-game",
-    "slug": "guessing-game",
+    "name": "memory-game",
+    "slug": "memory-game",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "guessinggame",
+    "scheme": "memorygame",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -38,7 +38,7 @@
     ],
     "experiments": {
       "typedRoutes": true,
-      "baseUrl": "/demo/guessing-game"
+      "baseUrl": "/demo/memory-game"
     }
   }
 }
