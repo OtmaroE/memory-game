@@ -2,23 +2,35 @@ import GameBoard from '@/components/GameBoard';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+const INITIAL_PAIRS_LEFT = 4;
+
 export default function Game() {
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [showAboutPage, setShowAboutPage] = useState<boolean>(false);
-  const [pairsLeft, setPairsLeft] = useState<number>(4);
+  const [pairsLeft, setPairsLeft] = useState<number>(INITIAL_PAIRS_LEFT);
+  const [gameKey, setGameKey] = useState<number>(0);
+
+  const startGame = () => {
+    setPairsLeft(INITIAL_PAIRS_LEFT);
+    setGameKey(prevKey => prevKey + 1);
+    setShowAboutPage(false);
+    setGameStarted(true);
+  };
+
+  const backToMenu = () => {
+    setPairsLeft(INITIAL_PAIRS_LEFT);
+    setGameStarted(false);
+  };
 
   return (
     <View style={styles.container}>
-      {gameStarted && <GameBoard pairsLeft={pairsLeft} onPairLeftChange={setPairsLeft} />}
+      {gameStarted && <GameBoard key={gameKey} pairsLeft={pairsLeft} onPairLeftChange={setPairsLeft} />}
 
       {!gameStarted && !showAboutPage && (
         <View style={styles.buttonContainer}>
           <Pressable
             style={styles.button}
-            onPress={() => {
-              setShowAboutPage(false);
-              setGameStarted(true);
-            }}
+            onPress={startGame}
           >
             <Text style={styles.buttonText}>Start Game</Text>
           </Pressable>
@@ -46,10 +58,23 @@ export default function Game() {
         </View>
       )}
 
-      {gameStarted && (
-        <Pressable style={styles.button} onPress={() => setGameStarted(false)}>
-          <Text style={styles.buttonText}>{pairsLeft === 0 ? 'New Game' : 'End Game'}</Text>
-        </Pressable>
+      {gameStarted && pairsLeft > 0 && (
+        <View style={styles.gameButtonContainer}>
+          <Pressable style={styles.button} onPress={backToMenu}>
+            <Text style={styles.buttonText}>End Game</Text>
+          </Pressable>
+        </View>
+      )}
+
+      {gameStarted && pairsLeft === 0 && (
+        <View style={styles.gameButtonContainer}>
+          <Pressable style={styles.button} onPress={startGame}>
+            <Text style={styles.buttonText}>New Game</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={backToMenu}>
+            <Text style={styles.buttonText}>Back to Menu</Text>
+          </Pressable>
+        </View>
       )}
     </View>
   );
@@ -61,7 +86,13 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   buttonContainer: {
+    flex: 1,
+    justifyContent: 'center',
     padding: 20,
+    gap: 12,
+  },
+  gameButtonContainer: {
+    paddingHorizontal: 20,
     gap: 12,
   },
   aboutContainer: {

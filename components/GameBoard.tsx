@@ -343,11 +343,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   solvedBoxText: {
-    fontSize: 18,
+    fontSize: 24,
     color: 'gray',
   },
   boxText: {
-    fontSize: 18,
+    fontSize: 24,
     color: 'black',
   }
   ,
